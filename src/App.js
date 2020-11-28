@@ -54,7 +54,7 @@ class App extends Component {
     })
 
     API.event.on("theme", (newTheme) => {
-      if(this.state.theme != newTheme){
+      if(this.state.theme !== newTheme){
         this.setState({theme: newTheme});
         API.updatePreference("theme", newTheme);
       }
@@ -63,7 +63,7 @@ class App extends Component {
     API.event.on("sheet", (id) => {
       this.setState({sheetLoading: true, focusIndex: null});
       API.getSheet(id).then((sheet) => {
-        if(sheet == "NO_AUTH"){
+        if(sheet === "NO_AUTH"){
           console.log("NO_AUTH, retrying initiation");
           API.login("refresh", id);
         }else{
@@ -96,9 +96,9 @@ class App extends Component {
     today = String(today.getDate()).padStart(2, '0') + "/" + String(today.getMonth() + 1).padStart(2, '0') + "/" + today.getFullYear();
     yesterday = String(yesterday.getDate()).padStart(2, '0') + "/" + String(yesterday.getMonth() + 1).padStart(2, '0') + "/" + yesterday.getFullYear();
 
-    if(date == today) {
+    if(date === today) {
       return "&middot; Today";
-    }else if(date == yesterday){
+    }else if(date === yesterday){
       return "&middot; Yesterday"
     }else{
       return "";
@@ -109,19 +109,19 @@ class App extends Component {
     let lines = this.state.lines;
     let cursorPosition = 0;
 
-    if((lines.length == i + 1) && from == "down"){
+    if((lines.length === i + 1) && from === "down"){
       return null;
     }
 
-    let lineIndex = from == "up" ? i-1 : i+1;
-    let focusIndex = from == "up" ? i-1 : i;
+    let lineIndex = from === "up" ? i-1 : i+1;
+    let focusIndex = from === "up" ? i-1 : i;
     if(lines[lineIndex]){
       API.updateLine(id, i, "", "rm");
       cursorPosition = lines[focusIndex].text.length;
 
-      if(from == "up"){
+      if(from === "up"){
         lines[lineIndex].text = lines[lineIndex].text + text;
-      }else if(from == "down"){
+      }else if(from === "down"){
         lines[lineIndex].text = text + lines[lineIndex].text;
       }
       lines[lineIndex].old_key = lines[lineIndex].line_key;
@@ -132,11 +132,11 @@ class App extends Component {
   }
 
   handleSplit(id, text, i){
-    let keyToSplit = id.split("-")[1];
+    // let keyToSplit = id.split("-")[1];
     let lines = this.state.lines;
     let date = id.split("-")[0].split("!")[1];
 
-    if(lines.length == i+1){
+    if(lines.length === i+1){
       let today = new Date();
       today = String(today.getDate()).padStart(2, '0') + "/" + String(today.getMonth() + 1).padStart(2, '0') + "/" + today.getFullYear();
       date = today
@@ -153,7 +153,7 @@ class App extends Component {
   }
 
   async handlePaste(id, textArray, index, downText){
-    let keyToSplit = id.split("-")[1];
+    // let keyToSplit = id.split("-")[1];
     let lines = this.state.lines;
     let date = id.split("-")[0].split("!")[1];
     let cursorPosition = "end";
@@ -161,7 +161,7 @@ class App extends Component {
     for (var i = 0; i < textArray.length; i++) {
       let text = textArray[i].replace(/^\s+|\s+$/g, "");
       if(downText){
-        if(i == textArray.length - 1){
+        if(i === textArray.length - 1){
           cursorPosition = text.length;
           text = text + downText;
         }
@@ -182,17 +182,17 @@ class App extends Component {
   handleCursor(direction, id, i){
     let newIndex = 0;
     let cursorPosition = 0;
-    if(direction == 37 || direction == 38){
+    if(direction === 37 || direction === 38){
       newIndex = i-1;
-    }else if(direction == 39 || direction == 40){
+    }else if(direction === 39 || direction === 40){
       newIndex = i+1;
     }
 
-    if(direction == 37 || ((direction == 40 || direction == 38) && false)){
+    if(direction === 37 || ((direction === 40 || direction === 38) && false)){
       cursorPosition = "end";
     }
 
-    if(i == 0 && (direction == 37 || direction == 38)){
+    if(i === 0 && (direction === 37 || direction === 38)){
       newIndex = "title";
     }
 
@@ -202,7 +202,7 @@ class App extends Component {
   handleBlur(text, lineId, i){
     let lines = this.state.lines;
 
-    if(lines[i].text != text || lines[i].old_key){
+    if(lines[i].text !== text || lines[i].old_key){
       if(lines[i].old_key){
         API.updateLine(lineId, i, text, "key", lines[i].old_key);
         lines[i].old_key = "";
@@ -251,8 +251,8 @@ class App extends Component {
           onPaste={this.handlePaste.bind(this)}
           onBlur={this.handleBlur.bind(this)}
           onCursor={this.handleCursor.bind(this)}
-          cursorPosition={i == this.state.focusIndex ? this.state.cursorPosition : false}
-          focusOnRender={i == this.state.focusIndex}>
+          cursorPosition={i === this.state.focusIndex ? this.state.cursorPosition : false}
+          focusOnRender={i === this.state.focusIndex}>
           {l.text}
         </Line>
       );
@@ -270,7 +270,7 @@ class App extends Component {
             <div className={this.state.sheetLoading ? "Content" : "Content ContentLoaded"} ref="_textScroller" id="content">
               {this.state.sheet &&
                 <Title
-                  shouldFocused={this.state.focusIndex == "title"}
+                  shouldFocused={this.state.focusIndex === "title"}
                   key={this.state.sheet.id}
                   onTitleDown={this.handleTitleDown.bind(this)}
                   sheet={this.state.sheet}>
@@ -301,7 +301,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className={`App${this.state.theme == "dark" ? " darkmode": ""}${(window.navigator.platform.includes('Win') || window.navigator.platform.includes('Linux')) ? " win" : ""}`}>
+      <div className={`App${this.state.theme === "dark" ? " darkmode": ""}${(window.navigator.platform.includes('Win') || window.navigator.platform.includes('Linux')) ? " win" : ""}`}>
         {this.renderApp()}
         <Cover/>
         <AppBar theme={this.state.theme}/>

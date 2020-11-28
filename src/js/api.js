@@ -39,7 +39,7 @@ class API {
     fetch(url, { method: 'GET', credentials: 'include'})
     .then(res => res.json())
     .then((res) => {
-      if(res == null){
+      if(res === null){
         console.log("NO_AUTH");
       }
       if(res){
@@ -70,7 +70,7 @@ class API {
     console.log("Logging in: Offline");
     this.logged = true;
     return LocalDB.count("sheet").then(sheetCount => {
-      if(sheetCount == 0){
+      if(sheetCount === 0){
         this.offlineFirstTime();
       }else{
         this.event.emit("sheet", "LAST_ACCESSED");
@@ -78,7 +78,7 @@ class API {
       }
     })
 
-    Files.listenFileDrop();
+    // Files.listenFileDrop();
   }
 
   offlineFirstTime(){
@@ -103,7 +103,7 @@ class API {
 
   sync(){
     Github.sync().then(res => {
-      if(res.status == 200){
+      if(res.status === 200){
         this.addToStaging("flush");
       }
     });
@@ -130,22 +130,22 @@ class API {
 
     let id = sheetId;
     let time = Math.round((new Date()).getTime() / 1000);
-    let where, order;
+    // let where, order;
     let action = "";
 
-    if(action == "archive"){
+    if(action === "archive"){
       // `sheet` SET `active` = 0 WHERE `id` = $id AND owner_id = $user_id
       return LocalDB.update("sheet", {id}, {active: 0});
-    }else if(action == "active"){
+    }else if(action === "active"){
       return LocalDB.update("sheet", {id}, {active: 1});
-    }else if(action == "rm"){
+    }else if(action === "rm"){
       //DELETE FROM `sheet` WHERE `id` = $id AND owner_id = $user_id
       //DELETE FROM `line` WHERE `sheet_id` = $id
       return LocalDB.delete("sheet", {id}).then((res) => {
         return LocalDB.delete("line", {sheet_id: id});
       });
     }else{
-      if(id == "NEW_SHEET"){
+      if(id === "NEW_SHEET"){
         // INTO `sheet` (`id`, `owner_id`, `title`, `active`, `created_at`, `accessed_at`) VALUES (NULL, '$user_id', 'Untitled Sheet', 1, '$time', '$time
         return LocalDB.insert("sheet", {
           title: "Untitled Sheet",
@@ -181,7 +181,7 @@ class API {
           }
         })
 
-      }else if(id == "LAST_ACCESSED"){
+      }else if(id === "LAST_ACCESSED"){
 
         return LocalDB.select("sheet", {active: 1}, {
           by: "accessed_at",
@@ -307,7 +307,7 @@ class API {
     let sheet_id = Number(id.split("-")[0].split("!")[0]);
     this.addToStaging(sheet_id);
 
-    if(action == "rm"){
+    if(action === "rm"){
       //DELETE FROM `line` WHERE `date` = '$date' AND `sheet_id` = '$sheetId' AND `pos` = '$pos
       //UPDATE `line` SET pos = pos-1 WHERE `pos` >= $pos AND sheet_id = $sheetId
       return LocalDB.delete("line", {date, sheet_id, pos}).then(() => {
@@ -325,14 +325,14 @@ class API {
     }else{
       let setFound = {text};
       let whereCheck = {date, sheet_id, pos, line_key};
-      if(action == "key"){
+      if(action === "key"){
         setFound.line_key = line_key;
         whereCheck.line_key = hint;
       }
 
       //SELECT id FROM `line` WHERE `date` = '$date' AND `sheet_id` = '$sheetId' AND `pos` = '$pos' AND `line_key` = '$checkKey' LIMIT 1
       return LocalDB.select("line", whereCheck, null, 1).then((line) => {
-        if(line.length == 1){
+        if(line.length === 1){
           //UPDATE `line` SET `text` = '$text'$updateKey WHERE `id` = $lineId
           return LocalDB.update("line", {id: line[0].id}, setFound);
         }else{
@@ -410,7 +410,7 @@ class API {
   }
 
   addToStaging(sheetId){
-    if(sheetId == "flush"){
+    if(sheetId === "flush"){
       this.setData("staging", "");
       console.log("staging is flushed");
       this.event.emit("sync", "flushed");

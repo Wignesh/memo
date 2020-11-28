@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React, { Component } from 'react';
 import './style.css';
 import API from "../../js/api"
@@ -28,15 +29,15 @@ class App extends Component {
         <p className="sub">Manage your preferences and access your account information.</p>
         <h5>Choose Your Side</h5>
         <div className="prefItem theme">
-          <div onClick={() => this.changeTheme("dark")} className={this.state.theme == "dark" ? "darkTheme themeActive" : "darkTheme"}>
+          <div onClick={() => this.changeTheme("dark")} className={this.state.theme === "dark" ? "darkTheme themeActive" : "darkTheme"}>
             <div className="themeScreen">
-              <img src={require("../../assets/memo_logo_left_white.svg")}/>
+              <img src={require("../../assets/memo_logo_left_white.svg")} alt="img"/>
               <div className="themeScreenElement"></div>
             </div>
           </div>
-          <div onClick={() => this.changeTheme("light")} className={this.state.theme == "light" ? "lightTheme themeActive" : "lightTheme"}>
+          <div onClick={() => this.changeTheme("light")} className={this.state.theme === "light" ? "lightTheme themeActive" : "lightTheme"}>
             <div className="themeScreen">
-              <img src={require("../../assets/memo_logo_left.svg")}/>
+              <img src={require("../../assets/memo_logo_left.svg")}  alt="img"/>
               <div className="themeScreenElement"></div>
             </div>
           </div>
@@ -62,12 +63,12 @@ class App extends Component {
         {!API.user &&
           <div className="label">Only Available Online</div>
         }
-        <p className="version">Memo App v{API.version} {API.version[0] == "0" && "Beta"}</p>
+        <p className="version">Memo App v{API.version} {API.version[0] === "0" && "Beta"}</p>
         <div className="myaccount">
           {API.isOnline() &&
             <div>
               <div className="subUser">
-                <img src={API.user.avatar} style={{width: 40, height: 40}}/>
+                <img src={API.user.avatar} style={{width: 40, height: 40}}  alt="img"/>
                 <div>
                   <div className="userName">{API.user.name ? API.user.name : handle[0].toUpperCase() + handle.substr(1)}</div>
                   <div className="userHandle">@{handle}</div>

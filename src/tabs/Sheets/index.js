@@ -41,7 +41,7 @@ class App extends Component {
               <div className="subHolder">
                 <sub>{date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()}</sub>
                 {sheet.first_line &&
-                  <sub>{sheet.line_count} Line{sheet.line_count != 1 ? "s": ""}</sub>
+                  <sub>{sheet.line_count} Line{sheet.line_count !== 1 ? "s": ""}</sub>
                 }
                 {!sheet.first_line &&
                   <sub>Blank</sub>
@@ -74,7 +74,7 @@ class App extends Component {
               <span>Create New Sheet</span>
           </div>
           {this.renderSheets(this.state.sheets)}
-          {this.state.archivedSheetCount != 0 &&
+          {this.state.archivedSheetCount !== 0 &&
             <div
               className="sheetItem"
               key={"archived_sheets"}

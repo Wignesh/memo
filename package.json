@@ -7,7 +7,7 @@
   "copyright": "GPLv3",
   "license": "GPLv3",
   "private": true,
-  "main": "src/electron.js",
+  "main": "src/index.js",
   "dependencies": {
     "@octokit/rest": "^16.35.0",
     "file-saver": "^2.0.2",
@@ -22,21 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "push": "react-scripts build && aws s3 rm s3://app.usememo.com --recursive && aws s3 cp build s3://app.usememo.com --recursive && aws s3 cp build s3://app.usememo.com/ --recursive --exclude * --include precache*.js --include service-worker.js --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type application/javascript --acl public-read",
-    "icon": "./node_modules/.bin/electron-icon-maker --input=./src/assets/memo_desktop_png.png --output=./src/assets",
-    "app": "electron .",
-    "app-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=src/assets/icons/mac/icon.icns --prune=true --out=release-builds",
-    "app-win": "electron-packager . --overwrite --asar --platform=win32 --arch=x64 --icon=src/assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Memo App\"",
-    "app-lin": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=src/assets/icons/png/1024x1024.png --prune=true --out=release-builds",
-    "package": "yarn build && electron-builder build --publish never",
-    "package-all": "electron-builder build -mwl",
-    "package-mac": "electron-builder build --mac osx-sign=true",
-    "package-ci": "yarn build && electron-builder --publish always",
-    "package-linux": "electron-builder build --linux",
-    "package-win": "electron-builder build --win --x64"
+    "eject": "react-scripts eject"
   },
-  "homepage": "https://app.usememo.com",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -45,65 +32,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "electron": "^7.1.7",
-    "electron-notarize": "^0.2.1"
-  },
-  "build": {
-    "afterSign": "scripts/notarize.js",
-    "appId": "com.usememo.app",
-    "files": [
-      "src/electron.js",
-      "package.json"
-    ],
-    "directories": {
-      "buildResources": "resources"
-    },
-    "dmg": {
-      "sign": false,
-      "contents": [
-        {
-          "x": 130,
-          "y": 220
-        },
-        {
-          "x": 410,
-          "y": 220,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    },
-    "mac": {
-      "hardenedRuntime": true,
-      "gatekeeperAssess": false,
-      "entitlements": "./src/entitlements.mac.inherit.plist",
-      "entitlementsInherit": "./src/entitlements.mac.inherit.plist",
-      "target": [
-        "dmg",
-        "zip"
-      ]
-    },
-    "win": {
-      "target": [
-        "nsis",
-        "msi"
-      ]
-    },
-    "linux": {
-      "target": [
-        "deb",
-        "rpm",
-        "AppImage"
-      ],
-      "category": "Productivity"
-    },
-    "publish": {
-      "provider": "github",
-      "owner": "btk",
-      "repo": "memo",
-      "private": true
-    }
-  }
+  ]
 }

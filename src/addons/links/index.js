@@ -35,7 +35,7 @@ class App extends Component {
     let links = text.match(/http[^\s]*/g);
     return links.map((link, i) => {
       if(link.endsWith(".png") || link.endsWith(".jpg") || link.endsWith(".gif") || link.endsWith(".svg") || link.endsWith(".JPG") || link.endsWith(".jpeg") || link.endsWith(".JPEG")){
-        return <div className="imageCarrier" key={i}><a href={link} target="_blank" rel="noopener noreferrer"><img src={link} style={{maxWidth: "100%", maxHeight: "100%"}}/></a></div>
+        return <div className="imageCarrier" key={i}><a href={link} target="_blank" rel="noopener noreferrer"><img src={link} style={{maxWidth: "100%", maxHeight: "100%"}}  alt="img"/></a></div>
       }else{
         if(link.includes("//")){
           return <a key={i} href={link} className="linkCarrier" target="_blank" rel="noopener noreferrer">Link from <b>{link.split("//")[1].split("/")[0]}</b></a>

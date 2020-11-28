@@ -41,8 +41,8 @@ class App extends Component {
       }else {
         return (
           <div className={(window.process.platform === 'darwin') ? "AppTitle AppTitleOSX" : "AppTitle AppTitleOther"}>
-            <img src={this.props.theme == "dark"?  require("../../assets/memo_logo_left_white.svg") : require("../../assets/memo_logo_left.svg")}/>
-            {window.process.platform != 'darwin' && this.renderWindowsButtons()}
+            <img  alt="img" src={this.props.theme === "dark"?  require("../../assets/memo_logo_left_white.svg") : require("../../assets/memo_logo_left.svg")}/>
+            {window.process.platform !== 'darwin' && this.renderWindowsButtons()}
           </div>
         );
       }

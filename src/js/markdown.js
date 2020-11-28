@@ -5,7 +5,7 @@ import makeid from './makeid';
 class Markdown {
   async getSheetMarkdown(sheetId, beautified){
     let sheet = await API.getSheet(sheetId);
-    if(sheet == "removed"){
+    if(sheet === "removed"){
       return "";
     }
 
@@ -28,7 +28,7 @@ accessed_at: ${sheet.accessed_at}
 
     let currentDate = "";
     sheet.lines.forEach(line => {
-      if(currentDate != line.date){
+      if(currentDate !== line.date){
         currentDate = line.date;
 
         if(beautified){
@@ -70,17 +70,17 @@ accessed_at: ${sheet.accessed_at}
 
     let localSheet = await LocalDB.select("sheet", {id: fileMetadata.id }, 1);
     let removeAddAction = false;
-    if(localSheet.length == 0) {
+    if(localSheet.length === 0) {
       removeAddAction = true;
     }else{
-      if(localSheet[0].accessed_at != fileMetadata.accessed_at){
+      if(localSheet[0].accessed_at !== fileMetadata.accessed_at){
         removeAddAction = true;
       }
     }
 
     if(removeAddAction){
       //delete
-      let ey = await LocalDB.delete("sheet", {id: fileMetadata.id});
+      // let ey = await LocalDB.delete("sheet", {id: fileMetadata.id});
       await LocalDB.delete("line", {sheet_id: fileMetadata.id});
 
       //insert
@@ -99,7 +99,7 @@ accessed_at: ${sheet.accessed_at}
       for (var j = 0; j < fileParagraphs.length; j++) {
         let p = fileParagraphs[j];
 
-        if(p != ""){
+        if(p !== ""){
           if(p.includes("{{date: ")){
             lineDate = p.split("{{date: ")[1].split("}}")[0];
           }else{
@@ -117,7 +117,7 @@ accessed_at: ${sheet.accessed_at}
         }
       }
 
-      if(linePos == 0){
+      if(linePos === 0){
         let newLineKey = makeid(5);
         await LocalDB.insert("line", {
           sheet_id: sheetId,
@@ -162,11 +162,11 @@ accessed_at: ${sheet.accessed_at}
     for (var i = 0; i < filesArray.length; i++) {
       let file = filesArray[i];
 
-      if(file.filename != "01_usememo.md" && file.filename != "02_metadata.md"){
+      if(file.filename !== "01_usememo.md" && file.filename !== "02_metadata.md"){
         await this.saveMarkdownSheet(file);
       }
 
-      if(file.filename == "02_metadata.md"){
+      if(file.filename === "02_metadata.md"){
         // set the local update validator to the cloud one.
         let accessed_at = Number(file.content.split("accessed_at: ")[1].split(/\n/)[0]);
         API.setData("updated_at", accessed_at);
@@ -176,7 +176,7 @@ accessed_at: ${sheet.accessed_at}
 
     let localSheetCount = await LocalDB.count("sheet");
     // -2 for desc and metadata sheets
-    if(localSheetCount != (filesArray.length - 2)){
+    if(localSheetCount !== (filesArray.length - 2)){
       await this.removeCloudDeletedFiles(filesArray);
     }
 

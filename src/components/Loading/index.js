@@ -68,7 +68,7 @@ class App extends Component {
   render() {
     return (
       <div className="Loading" style={{height: this.props.height}}>
-        {this.props.quote && <img src={API.getTheme() == "dark" ? require("../../assets/memo_logo_left_white.svg"):require("../../assets/memo_logo_left.svg")} style={{marginBottom: 10, width: 159, height: 42}}/>}
+        {this.props.quote && <img  alt="img" src={API.getTheme() === "dark" ? require("../../assets/memo_logo_left_white.svg"):require("../../assets/memo_logo_left.svg")} style={{marginBottom: 10, width: 159, height: 42}}/>}
         {this.state.spinning &&
           <>
             <div className="spinner">

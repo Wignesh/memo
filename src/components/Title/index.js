@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './style.css';
 
-import AppBar from '../AppBar'
-
 import API from '../../js/api';
 import Files from '../../js/files';
 
@@ -50,8 +48,9 @@ class App extends Component {
 
   handleKeyDown(e){
     let selectionStart = this.refs._title.selectionStart;
-    let selectionEnd = this.refs._title.selectionEnd;
+    // let selectionEnd = this.refs._title.selectionEnd;
 
+    // eslint-disable-next-line no-self-compare
     if(e.keyCode === 13 || (selectionStart === selectionStart && e.keyCode === 39 && selectionStart === this.state.text.length) || e.keyCode === 40){
       this.props.onTitleDown();
       e.preventDefault();
@@ -94,7 +93,7 @@ class App extends Component {
           <input
             ref="_title"
             placeholder={"Untitled Sheet"}
-            value={this.state.text == "Untitled Sheet" ? "" : this.state.text}
+            value={this.state.text === "Untitled Sheet" ? "" : this.state.text}
             onKeyDown={(event) => this.handleKeyDown(event)}
             onBlur={(event) => this.handleBlur(event)}
             onChange={(event) => this.handleChange(event)}/>

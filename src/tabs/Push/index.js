@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './style.css';
 import API from '../../js/api';
-import Loading from '../../components/Loading';
+// import Loading from '../../components/Loading';
 
 class App extends Component {
 
@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   syncAction = (status) => {
-    if(status == "flushed"){
+    if(status === "flushed"){
       this.setState({syncText: "No Local Changes", staged: API.getData("staging")});
     }else{
       this.setState({syncText: "Push Changes", staged: API.getData("staging")});
@@ -70,7 +70,7 @@ class App extends Component {
         <div className="tabScroller">
           {API.isOnline() &&
             <div
-              className={this.state.staged == "" ? "sheetItem pushButton passive" : "sheetItem pushButton"}
+              className={this.state.staged === "" ? "sheetItem pushButton passive" : "sheetItem pushButton"}
               key={"push_changes"}
               onClick={() => this.startSync()}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#444" viewBox="0 0 24 24" width="18" height="18">
@@ -79,11 +79,11 @@ class App extends Component {
                 <span>{this.state.syncText}</span>
             </div>
           }
-          {(this.state.error != "") &&
+          {(this.state.error !== "") &&
              <div className="tabNotice">{this.state.error} <br/>Please try to login again by <span style={{cursor: "pointer", fontWeight: 500}} onClick={() => window.location.reload()}>restarting the app.</span></div>
           }
           {!API.isOnline() && <div className="tabNotice">You are in offline mode. <br/>Please connect to internet and <span style={{cursor: "pointer", fontWeight: 500}} onClick={() => window.location.reload()}>restart the app.</span></div>}
-          {(API.isOnline() && (this.state.error == "")) && this.renderChanges(this.state.staged)}
+          {(API.isOnline() && (this.state.error === "")) && this.renderChanges(this.state.staged)}
         </div>
       </div>
     );

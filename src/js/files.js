@@ -17,7 +17,7 @@ class Files {
           return false;
       }, 1000);
 
-      if(cover.className != "cover coverActive"){
+      if(cover.className !== "cover coverActive"){
         cover.className = "cover coverActive";
       }
       return false;
@@ -64,7 +64,7 @@ class Files {
 
   async importFile(fileName, unixTime, text){
 
-    if(text[text.length - 1] == "\r" || text[text.length - 1] == "\n"){
+    if(text[text.length - 1] === "\r" || text[text.length - 1] === "\n"){
       text = text.substr(0, text.length-1)
     }
 
@@ -97,13 +97,13 @@ class Files {
     for (var j = 0; j < fileParagraphs.length; j++) {
       let p = fileParagraphs[j];
 
-      if(p[p.length - 1] == "\r" || p[p.length - 1] == "\n"){
+      if(p[p.length - 1] === "\r" || p[p.length - 1] === "\n"){
         p = p.substr(0, p.length-1)
       }
-      if(p[0] == "\r" || p[0] == "\n"){
+      if(p[0] === "\r" || p[0] === "\n"){
         p = p.substr(1)
       }
-      if(p != ""){
+      if(p !== ""){
         let lineKey = makeid(5);
         await LocalDB.insert("line", {
           sheet_id: sheetId,
@@ -121,7 +121,7 @@ class Files {
 
   exportFile(sheetId) {
     try {
-        var isFileSaverSupported = !!new Blob;
+        // var isFileSaverSupported = !!new Blob();
     } catch (e) {
       alert("Your device doesn't support file saver!");
     }

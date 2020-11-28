@@ -6,6 +6,7 @@ const addon = require("./addon.json");
 
 function evil(fn) {
   try{
+    // eslint-disable-next-line no-new-func
     return new Function('return ' + fn)();
   } catch(err){
     return "NaN";

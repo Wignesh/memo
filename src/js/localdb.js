@@ -1,5 +1,5 @@
 import * as JsStore from 'jsstore';
-import { IDataBase, DATA_TYPE, ITable } from 'jsstore';
+// import { IDataBase, DATA_TYPE, ITable } from 'jsstore';
 import * as JsStoreWorker from "jsstore/dist/jsstore.worker.commonjs2";
 window['JsStoreWorker'] = JsStoreWorker;
 

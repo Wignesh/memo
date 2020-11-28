@@ -46,7 +46,7 @@ class App extends Component {
               <div className="subHolder">
                 <sub>{date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()}</sub>
                 {sheet.first_line &&
-                  <sub>{sheet.line_count} Line{sheet.line_count != 1 ? "s": ""}</sub>
+                  <sub>{sheet.line_count} Line{sheet.line_count !== 1 ? "s": ""}</sub>
                 }
                 {!sheet.first_line &&
                   <sub>Blank</sub>
